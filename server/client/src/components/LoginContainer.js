@@ -1,66 +1,40 @@
 import React from 'react';
-import 'whatwg-fetch';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { incrementprogress,decrementprogress } from '../actions/pattype';
+import { Redirect } from 'react-router-dom';
+import {logUserIn} from '../actions/authenpat';
 import Signinpat from './Signinpat';
 
+console.log('In logincont');
 export  class LoginContainer extends React.Component{
 constructor(props){
     super(props);
-    this.attemptLogin=this.attemptLogin.bind(this);
+    this.logUserInFunction=this.logUserInFunction.bind(this);
 }
-    async attemptLogin(userData) {
-        const { decrementProgressAction, incrementProgressAction } = this.props;
-
-        // turn on spinner
-        incrementProgressAction();
-
-
-      await fetch(
-
-            '/api/authentication/Signinpat',
-
-            {
-                method: 'POST',
-                body: JSON.stringify(userData),
-
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin':'*',
-                },
-                credentials: 'same-origin',
-            },
-        ).then((response) => {
-          if (response.status === 200) {
-              return response.json();
-          }
-          return null;
-      }) .catch((error) => {
-          new Error(error);
-      });
-
-
-
-
-
-        decrementProgressAction();
-    }
+logUserInFunction(userData) {
+  console.log('Inloguserinf');
+  const { dispatch } = this.props;
+  dispatch(logUserIn(userData));
+}
 render(){
-    return(
-    <div>
-        <Signinpat loginFunction={this.attemptLogin} />
+    const { authenpat } = this.props;
+    if(authenpat.isLoggedIn){
+        return(
+            <Redirect to='/Next' />
+        );
+    }
+      return(
+        <div>
+          <Signinpat loginFunction={this.logUserInFunction} />
 
-    </div>
-);
+        </div>
+      );
+    }
 }
-}
-function mapDispatchToProps(dispatch){
-return bindActionCreators({
-incrementProgressAction:incrementprogress,
-    decrementProgressAction:decrementprogress,
 
-    },dispatch);
-    
+function mapStateToProps(state) {
+    console.log('In mapStateToProps');
+    return {
+    authenpat: state.authenpat,
+  };
 }
-export default connect(null,mapDispatchToProps)(LoginContainer);
+export default connect( mapStateToProps)(LoginContainer);

@@ -1,2 +1,2 @@
-export const incrementprogress = () =>({type: 'INCREMENT_PROGRESS'});
-export const decrementprogress = () =>({type: 'DECREMENT_PROGRESS'});
+export const incrementProgress = () =>({type: 'INCREMENT_PROGRESS'});
+export const decrementProgress = () =>({type: 'DECREMENT_PROGRESS'});

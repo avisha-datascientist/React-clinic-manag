@@ -1,16 +1,14 @@
-import  'materialize-css/dist/css/materialize.min.css';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import  { Provider } from 'react-redux';
-import { createStore,applyMiddleware } from 'redux';
-import App from './components/App';
-import reducers from './reducers';
-import reduxThunk from 'redux-thunk';
+import 'bootstrap/dist/css/bootstrap.css';
+import  'materialize-css/dist/css/materialize.min.css';
 
-const Store= createStore(reducers,{},applyMiddleware(reduxThunk));
-
+import configureStore from './store/index';
+import TempContainer from './components/TempContainer';
+const Store = configureStore();
 ReactDOM.render(
-
-    <Provider store={Store}><App /></Provider>
-    ,
-    document.querySelector('#root'));
+  <Provider store={Store}><TempContainer /></Provider>,
+      document.querySelector('#root')
+  );

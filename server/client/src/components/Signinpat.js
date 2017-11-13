@@ -18,6 +18,7 @@ handleEmailChange(e){
         this.setState({password: e.target.value });
     }
     compileFormData(){
+        console.log('In compileformdata');
         const {loginFunction}=this.props;
         const formData=this.state;
         loginFunction(formData);
